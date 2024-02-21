@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             boton.setOnClickListener {
                 if (resetPantalla) {
                     pantalla.text = ""
-                    resetPantalla = false
+                    resetPantalla = true
                 }
                 pantalla.append(boton.text)
             }
@@ -64,19 +64,24 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.igual).setOnClickListener {
             val numeros = pantalla.text.split(operador)
-            numero1 = numeros[0].toDouble()
-            numero2 = numeros[1].toDouble()
+            if (numeros.size == 2) {
+                numero1 = numeros[0].toDouble()
+                numero2 = numeros[1].toDouble()
 
-            val resultado = when (operador) {
-                "+" -> numero1 + numero2
-                "-" -> numero1 - numero2
-                "*" -> numero1 * numero2
-                "/" -> if (numero2 != 0.0) numero1 / numero2 else null
-                else -> null
+                val resultado = when (operador) {
+                    "+" -> numero1 + numero2
+                    "-" -> numero1 - numero2
+                    "*" -> numero1 * numero2
+                    "/" -> if (numero2 != 0.0) numero1 / numero2 else null
+                    else -> null
+                }
+
+                pantalla.text = resultado?.toString() ?: "Error"
+                resetPantalla = true
+            } else {
+                pantalla.text = "Error"
+                resetPantalla = true
             }
-
-            pantalla.text = resultado?.toString() ?: "Error"
-            resetPantalla = true
         }
     }
 }
